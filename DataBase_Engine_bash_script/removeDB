@@ -1,0 +1,39 @@
+#!/usr/bin/bash
+
+#clear screen
+clear
+
+#Data Base name
+echo -e "\nDeleting data base:"
+read -rp "Enter your DB name: " db_name
+
+
+# Replace spaces with underscores
+db_name=$(echo "$db_name" | tr ' ' '_')
+
+# Get list of directories (databases)
+files=$(ls -F | grep  / )
+
+
+# Check if files is empty (no databases exist)
+if [[ -z "$files" ]]; then
+    echo -e "\n${red}Error: No databases found.${white}"
+    return
+fi
+
+#DB name exist 
+for i in $files
+do
+    if [[ "$db_name/" = $i ]]; then 
+        rm -r $db_name
+        echo "Removing $db_name ...."
+        sleep 1
+        echo "$db_name data base has been removed successfully."
+        return 
+    #Data base name doesn't exit
+    else
+        echo -e "${red}Error: $db_name No such Data Base found.${white}"
+        return
+    fi
+done
+
